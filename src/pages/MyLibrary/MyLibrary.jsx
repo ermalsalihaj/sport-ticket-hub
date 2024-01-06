@@ -1,6 +1,6 @@
 import React from "react";
 import "./myLibrary.css";
-import GameCard from "../components/GameCard";
+import GameCard from "../../components/GameCard";
 function MyLibrary({ games, reference }) {
   return (
     <section id="mylibrary" className="mylibrary" ref={reference}>

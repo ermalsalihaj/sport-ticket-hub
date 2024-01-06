@@ -6,7 +6,7 @@ const filterListData = [
   },
   {
     _id: 2,
-    name: "RPG",
+    name: "Events",
     active: false,
   },
   {

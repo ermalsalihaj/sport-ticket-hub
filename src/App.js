@@ -3,7 +3,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import React, { useState } from "react";
 import "./App.css";
-import Main from "./pages/Main";
+import Main from "./pages/Main/Main";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Event from "./pages/Event/Event";
+// import Routes from "./routes/Routes";
+import CreateVenue from "./pages/Venue/CreateVenue/CreateVenue";
+import UpdateVenue from "./pages/Venue/CreateVenue/UpdateVenue";
 
 export const AppContext = React.createContext();
 
@@ -13,9 +18,20 @@ function App() {
 
   return (
     <>
+      {/* <Routes> */}
       <AppContext.Provider value={{ library, setLibrary, bag, setBag }}>
-        <Main />
+        <Router>
+        {/* <Main /> */}
+          <Routes>
+            <Route path="/create-venue" element={<CreateVenue />} />
+            <Route path="/update-venue/:venueId" element={<UpdateVenue />} />
+            <Route path="/" element={<Main />} />
+          </Routes>
+        </Router>
+
+        {/* <Event/> */}
       </AppContext.Provider>
+      {/* </Routes> */}
     </>
   );
 }
