@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { variables } from "../../Variables";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
 
 const Event = () => {
   const [events, setevents] = useState([]);
@@ -33,6 +36,14 @@ const Event = () => {
 
     fetchAll();
   }, []);
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://localhost:7051/api/Events/${id}`);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -50,6 +61,8 @@ const Event = () => {
     <div>
       <div className="col-lg-6">
         <h4 className="sectionTitle">Events</h4>
+        <Link to="/create-event">Create Event</Link>
+
       </div>
       <div className="row mb-4 mt-4">
         {events.map((event) => (
@@ -61,15 +74,22 @@ const Event = () => {
                 {/* <h3 className="gameTitle mt-4 mb-3">{event.isAvailable ? "Available" : "Not Available"}</h3> */}
               </div>
               <div className="gamePrice">
-                <h3 className="gameTitle mt-4 mb-3">
-                  Venue: {event.venueName}
-                </h3>
+                
 
                 <span className="currentPrice">
                   Category: {event.eventCategory}
                 </span>
 
                 <span className="currentPrice">{formatDate(event.date)}</span>
+                <Link to={`/update-event/${event.eventId}`}>
+                  <p> Update</p>
+                </Link>
+                <button
+                  className="delete"
+                  onClick={() => handleDelete(event.eventId)}
+                >
+                  Delete
+                </button>
 
                 {/* <span className="currentPrice">Price: {event.eventPrice}$</span> */}
               </div>
