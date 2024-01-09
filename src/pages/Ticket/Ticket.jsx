@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { variables } from "../../Variables";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Ticket = () => {
   const [events, setevents] = useState([]);
@@ -35,6 +37,15 @@ const Ticket = () => {
     fetchAll();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://localhost:7051/api/Tickets/${id}`);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -51,6 +62,7 @@ const Ticket = () => {
     <div>
       <div className="col-lg-6">
         <h4 className="sectionTitle">Tickets</h4>
+        <Link to="/create-ticket">Create Ticket</Link>
       </div>
       <div className="row mb-4 mt-4">
         {tickets.map((ticket) => (
@@ -72,6 +84,16 @@ const Ticket = () => {
                 <span className="currentPrice">
                   Price: {ticket.ticketPrice}$
                 </span>
+
+                <Link to={`/update-ticket/${ticket.ticketId}`}>
+                  <p> Update</p>
+                </Link>
+                <button
+                  className="delete"
+                  onClick={() => handleDelete(ticket.ticketId)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </div>

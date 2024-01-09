@@ -12,11 +12,10 @@ import UpdateVenue from "./pages/Venue/CreateVenue/UpdateVenue";
 import CreateEvent from "./pages/Event/CreateEvent/CreateEvent";
 import UpdateEvent from "./pages/Event/CreateEvent/UpdateEvent";
 import Login from "./pages/Login/Login";
+import CreateTicket from "./pages/Ticket/CreateTicket/CreateTicket";
+import UpdateTicket from "./pages/Ticket/CreateTicket/UpdateTicket";
 
 import UpdateShoppingCart from "./pages/ShoppingCart/CreateShoppingCart/UpdateShoppingCart";
-
-
-
 
 export const AppContext = React.createContext();
 
@@ -29,17 +28,21 @@ function App() {
       {/* <Routes> */}
       <AppContext.Provider value={{ library, setLibrary, bag, setBag }}>
         <Router>
-        {/* <Main /> */}
+          {/* <Main /> */}
           <Routes>
             <Route path="/create-venue" element={<CreateVenue />} />
             <Route path="/login" element={<Login />} />
 
-         
             <Route path="/create-event" element={<CreateEvent />} />
+            <Route path="/create-ticket" element={<CreateTicket />} />
 
             <Route path="/update-venue/:venueId" element={<UpdateVenue />} />
             <Route path="/update-event/:eventId" element={<UpdateEvent />} />
-            <Route path="/update-shoppingcart/:shoppingCartId" element={<UpdateShoppingCart/>}/>
+            <Route path="/update-ticket/:ticketId" element={<UpdateTicket />} />
+            <Route
+              path="/update-shoppingcart/:shoppingCartId"
+              element={<UpdateShoppingCart />}
+            />
             <Route path="/" element={<Main />} />
           </Routes>
         </Router>
