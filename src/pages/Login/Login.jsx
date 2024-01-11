@@ -1,83 +1,128 @@
 import "./login.css";
+import axios from "axios";
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginStatus, setLoginStatus] = useState("");
-    const [registerStatus, setRegisterStatus] = useState("");
-    const [showRegisterForm, setShowRegisterForm] = useState(false);
-    const [role, setRole] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for tracking login status
-    const navigate = useNavigate();
-  
-    const register = (e) => {
-      e.preventDefault();
-      Axios.post("https://localhost:7051/api/Users/PostUser", {
-        email: email,
-        username: username,
-        password: password,
-        role: role || "user",
-      })
-        .then((response) => {
-          console.log("Registration Response:", response);
-  
-          if (response.status === 200) {
-            setRegisterStatus("Account created successfully");
-  
-            // Update login status in the component state
-            setIsLoggedIn(true);
-  
-            // Redirect to the homepage
-            navigate("/");
-          } else {
-            setRegisterStatus("An error occurred.");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState("");
+  const [registerStatus, setRegisterStatus] = useState("");
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [role, setRole] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for tracking login status
+  const navigate = useNavigate();
+
+  const register = (e) => {
+    e.preventDefault();
+    Axios.post("https://localhost:7051/api/Users/PostUser", {
+      email: email,
+      username: username,
+      password: password,
+      role: role || "user",
+    })
+      .then((response) => {
+        console.log("Registration Response:", response);
+
+        if (response.status === 200) {
+          setRegisterStatus("Account created successfully");
+
+          // Update login status in the component state
+          setIsLoggedIn(true);
+
+          // Redirect to the homepage
+          navigate("/");
+        } else {
           setRegisterStatus("An error occurred.");
-        });
-    };
-  
-    const login = (e) => {
-      e.preventDefault();
-      Axios.post("https://localhost:7051/api/Users", {
-        username: username,
-        password: password,
-        role: role,
+        }
       })
-        .then((response) => {
-          if (response.status === 200) {
-            setLoginStatus("Login was successful");
+      .catch((error) => {
+        console.log(error);
+        setRegisterStatus("An error occurred.");
+      });
+  };
+
+  // const login = (e) => {
+  //   e.preventDefault();
+  //   Axios.post("https://localhost:7051/api/Users", {
+  //     username: username,
+  //     password: password,
+  //     role: role,
+  //   })
+  //     .then((response) => {
+  //       if (response.status === 200) {
+  //         setLoginStatus("Login was successful");
+
+  //         // Update login status in the component state
+  //         setIsLoggedIn(true);
+
+  //         // Save user details to localStorage if needed
+  //         localStorage.setItem("role", response.data.role);
+  //         localStorage.setItem("id", response.data.userId);
+
+  //         navigate("/");
+  //       } else {
+  //         setLoginStatus("Invalid username or password");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setLoginStatus("An error occurred.");
+  //     });
+  // };
+
+  // Axios interceptor to attach token to headers
   
-            // Update login status in the component state
-            setIsLoggedIn(true);
-  
-            // Save user details to localStorage if needed
-            localStorage.setItem("role", response.data.role);
-            localStorage.setItem("id", response.data.userId);
-  
-            navigate("/");
-          } else {
-            setLoginStatus("Invalid username or password");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoginStatus("An error occurred.");
-        });
-    };
-  
-    const toggleRegisterForm = () => {
-      setShowRegisterForm(!showRegisterForm);
-    };
+  axios.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const login = (e) => {
+    e.preventDefault();
+    Axios.post("https://localhost:7051/api/Users/Login", {
+      username: username,
+      password: password,
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setLoginStatus("Login was successful");
+
+          localStorage.setItem("username", username);
+          localStorage.setItem("token", response.data.token);
+          navigate("/");
+          // console.log(response.data.token);
+        } else {
+          setLoginStatus("Invalid username or password");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoginStatus("An error occurred.");
+      });
+  };
+
+  const toggleRegisterForm = () => {
+    setShowRegisterForm(!showRegisterForm);
+  };
 
   return (
-    <div className="d-flex align-items-center justify-content-center vh-100 " id="login">
+    <div
+      className="d-flex align-items-center justify-content-center vh-100 "
+      id="login"
+    >
       {showRegisterForm ? (
         <div className="registerForm">
           <form action="">
@@ -133,7 +178,13 @@ function Login() {
                 </a>
               </b>
             </p>
-            <p style={{ color: registerStatus.includes("taken") ? "red" : "green" }}>{registerStatus}</p>
+            <p
+              style={{
+                color: registerStatus.includes("taken") ? "red" : "green",
+              }}
+            >
+              {registerStatus}
+            </p>
           </form>
         </div>
       ) : (

@@ -2,31 +2,38 @@ import React, { useEffect, useState } from "react";
 import { variables } from "../../Variables";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Venue = () => {
   const [venues, setvenues] = useState([]);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const venuesResponse = await fetch(variables.API_URL + "venues");
-
-        const venuesData = await venuesResponse.json();
-
-        setvenues(venuesData);
-        // console.log(venuesData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchAll();
   }, []);
+  
+  const fetchAll = async () => {
+    try {
+      const venuesResponse = await fetch(variables.API_URL + "venues");
 
+      const venuesData = await venuesResponse.json();
+
+      setvenues(venuesData);
+      // console.log(venuesData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://localhost:7051/api/Venues/${id}`);
-      window.location.reload();
+      if (window.confirm("Are you sure you want to delete this venue?") == true) {
+        await axios.delete(`https://localhost:7051/api/Venues/${id}`);
+        // window.location.reload();
+        toast.success(" Venue Deleted! ");
+        fetchAll();
+      }
+
     } catch (err) {
       console.log(err);
     }
@@ -34,6 +41,7 @@ const Venue = () => {
 
   return (
     <div>
+      <ToastContainer/>
       <div className="col-lg-6">
         <h4 className="sectionTitle">Venues</h4>
         <Link to="/create-venue">Create Venue</Link>

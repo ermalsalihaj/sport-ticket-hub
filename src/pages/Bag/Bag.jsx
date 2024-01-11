@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./bag.css";
 import ShopBagItem from "../../components/ShopBagItem";
 import { variables } from "../../Variables";
+import Ticket from "../Ticket/Ticket";
 
 function Bag({ games, reference }) {
   const [total, setTotal] = useState(0);
   const [shoppingCarts, setshoppingCarts] = useState([]);
   const [ticket, setticket] = useState([]);
 
+  // const { selectedTicket } = useContext(TicketContext);
 
   const handleTotalPayment = () => {
-    return games
-      .map((game) => game.price * (1 - game.discount))
-      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-      .toFixed(2);
+    if (games && games.length > 0) {
+      return games
+        .map((game) => game.price * (1 - game.discount))
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+        .toFixed(2);
+    }
+    return 0;
   };
 
 
@@ -22,31 +27,32 @@ function Bag({ games, reference }) {
   }, [games]);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const shoppingCartsResponse = await fetch(variables.API_URL + "shoppingCarts");
-        const ticketsResponse = await fetch(variables.API_URL + "venues");
-        
-        const shoppingCartsData = await shoppingCartsResponse.json();
-        const ticketsData = await ticketsResponse.json();
-
-        const shoppingCartTicket = shoppingCartsData.map((shoppingCarts) => {
-          const ticket = ticketsData.find((ticket) => ticket.ticketId === shoppingCarts.ticketId);
-          const ticketPrice = ticket ? ticket.ticketPrice : "Unknown ticket";
-          return { ...shoppingCarts, ticketPrice };
-        });
-
-        setshoppingCarts(shoppingCartTicket);
-        setticket(ticketsData);
-        console.log(shoppingCartTicket);
-        console.log(ticketsData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
     fetchAll();
   }, []);
+  
+  const fetchAll = async () => {
+    try {
+      const shoppingCartsResponse = await fetch(variables.API_URL + "shoppingCarts");
+      const ticketsResponse = await fetch(variables.API_URL + "tickets");
+      
+      const shoppingCartsData = await shoppingCartsResponse.json();
+      const ticketsData = await ticketsResponse.json();
+
+      const shoppingCartTicket = shoppingCartsData.map((shoppingCarts) => {
+        const ticket = ticketsData.find((ticket) => ticket.ticketId === shoppingCarts.ticketId);
+        const ticketPrice = ticket ? ticket.ticketPrice : "Unknown ticket";
+        const ticketseat = ticket ? ticket.seatNumber : "Unknown ticket";
+        return { ...shoppingCarts, ticketseat ,ticketPrice};
+      });
+
+      setshoppingCarts(shoppingCartTicket);
+      setticket(ticketsData);
+      console.log(shoppingCartTicket);
+      console.log(ticketsData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <section id="bag" className="bag" ref={reference}>
@@ -55,11 +61,15 @@ function Bag({ games, reference }) {
           <h1>My Bag</h1>
         </div>
       </div>
-      {games.length === 0 ? (
+      {/* {games.length === 0 ? (
         <h2>Your bag is empty</h2>
-      ) : (
+      ) : ( */}
         <>
           <div className="row">
+          {/* {shoppingCarts.map((ticket) => (
+            <p>{ticket.ticketPrice}</p>
+        // <ShopBagItem key={index} ticket={ticket} />
+      ))} */}
             <div className="table-responsive">
               <table className="shopBagTable table table-borderless align-middle">
                 <thead>
@@ -71,9 +81,10 @@ function Bag({ games, reference }) {
                 </thead>
                 <tbody>
                   {shoppingCarts.map((shoppingCart) => (
-                    <tr key={shoppingCart.shoppingCartsid}>
-                      <td>{shoppingCart.name}</td>
-                      <td>{shoppingCart.location}</td>
+                    // <tr key={shoppingCart.shoppingCartsid}>
+                    <tr key={shoppingCart.ticketId === ticket.ticketId}>
+                      <td>{shoppingCart.ticketseat}</td>
+                      <td>Price: {shoppingCart.ticketPrice}$</td>
                     </tr>
                   ))}
                 </tbody>
@@ -98,9 +109,9 @@ function Bag({ games, reference }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {games.map((game, index) => (
+                  {/* {games.map((game, index) => (
                     <ShopBagItem index={index} key={game._id} game={game} />
-                  ))}
+                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -110,7 +121,7 @@ function Bag({ games, reference }) {
           </div>
           <div className="row d-flex justify-content-between mt-1">
             <div className="col-lg-2 d-flex align-items-center">
-              <p className="itemCount">Total Items:{games.length}</p>
+              {/* <p className="itemCount">Total Items:{games.length}</p> */}
             </div>
             <div className="col-lg-10 d-flex justify-content-end">
               <div className="payment">
@@ -122,7 +133,8 @@ function Bag({ games, reference }) {
             </div>
           </div>
         </>
-      )}
+      {/* ) */}
+      {/* } */}
     </section>
   );
 }

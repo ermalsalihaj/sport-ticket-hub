@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateShoppingCart = () => {
   const [cart, setCart] = useState({
@@ -47,6 +48,8 @@ const UpdateShoppingCart = () => {
         cart
       );
       navigate("/");
+      toast.success(" Updated Successfully! ");
+
     } catch (err) {
       console.log(err);
     }

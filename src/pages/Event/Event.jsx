@@ -2,44 +2,51 @@ import React, { useEffect, useState } from "react";
 import { variables } from "../../Variables";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import EventCategoryEnum from "./EventCategoryEnum";
+import { ToastContainer, toast } from "react-toastify";
 
 const Event = () => {
   const [events, setevents] = useState([]);
   const [venues, setvenues] = useState([]);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const eventResponse = await fetch(variables.API_URL + "events");
-        const venuesResponse = await fetch(variables.API_URL + "venues");
-
-        const eventData = await eventResponse.json();
-        const venuesData = await venuesResponse.json();
-
-        const venuesEvent = eventData.map((events) => {
-          const venue = venuesData.find(
-            (venue) => venue.venueId === events.venueId
-          );
-          const venueName = venue ? venue.name : "Unknown Venue";
-          return { ...events, venueName };
-        });
-
-        setevents(venuesEvent);
-        setvenues(venuesData);
-        // console.log(venuesData);
-        // console.log(eventData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchAll();
   }, []);
+
+  const fetchAll = async () => {
+    try {
+      const eventResponse = await fetch(variables.API_URL + "events");
+      const venuesResponse = await fetch(variables.API_URL + "venues");
+
+      const eventData = await eventResponse.json();
+      const venuesData = await venuesResponse.json();
+
+      const venuesEvent = eventData.map((events) => {
+        const venue = venuesData.find(
+          (venue) => venue.venueId === events.venueId
+        );
+        const venueName = venue ? venue.name : "Unknown Venue";
+        return { ...events, venueName };
+      });
+
+      setevents(venuesEvent);
+      setvenues(venuesData);
+      // console.log(venuesData);
+      console.log(eventData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://localhost:7051/api/Events/${id}`);
-      window.location.reload();
+      if (
+        window.confirm("Are you sure you want to delete this venue?") == true
+      ) {
+        await axios.delete(`https://localhost:7051/api/Events/${id}`);
+        // window.location.reload();
+        toast.success(" Deleted Successfully! ");
+        fetchAll();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -59,10 +66,11 @@ const Event = () => {
 
   return (
     <div>
+      <ToastContainer />
+
       <div className="col-lg-6">
         <h4 className="sectionTitle">Events</h4>
         <Link to="/create-event">Create Event</Link>
-
       </div>
       <div className="row mb-4 mt-4">
         {events.map((event) => (
@@ -74,10 +82,11 @@ const Event = () => {
                 {/* <h3 className="gameTitle mt-4 mb-3">{event.isAvailable ? "Available" : "Not Available"}</h3> */}
               </div>
               <div className="gamePrice">
-                
+                {/* <h3 className="gameTitle mt-4 mb-3">Venue: {event.venueName}</h3> */}
 
                 <span className="currentPrice">
-                  Category: {event.eventCategory}
+                  Category:{" "}
+                  {Object.keys(EventCategoryEnum)[event.eventCategory - 1]}
                 </span>
 
                 <span className="currentPrice">{formatDate(event.date)}</span>

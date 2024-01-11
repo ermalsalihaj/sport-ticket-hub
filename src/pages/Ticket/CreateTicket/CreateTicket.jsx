@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { variables } from "../../../Variables";
+import { toast } from "react-toastify";
 
 const CreateTicket = () => {
   const [ticket, setTicket] = useState({
@@ -39,6 +40,7 @@ const CreateTicket = () => {
         ticketPrice: ticketPriceFloat,
       });
       navigate("/");
+      toast.success(" Created Successfully! ");
     } catch (err) {
       console.log(err);
     }

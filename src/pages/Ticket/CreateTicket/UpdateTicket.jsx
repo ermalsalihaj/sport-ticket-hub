@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateTicket = () => {
   const [ticket, setTicket] = useState({
+    ticketId: 0,
     seatNumber: "",
     ticketPrice: 0,
     isAvailable: false,
@@ -37,6 +39,7 @@ const UpdateTicket = () => {
     if (fetchedTicket) {
       setTicket((prev) => ({
         ...prev,
+        ticketId: fetchedTicket.ticketId,
         seatNumber: fetchedTicket.seatNumber,
         ticketPrice: fetchedTicket.ticketPrice,
         isAvailable: fetchedTicket.isAvailable,
@@ -54,10 +57,12 @@ const UpdateTicket = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `https://localhost:7051/api/Tickets/PutTicket/${ticketId}`,
+        `https://localhost:7051/api/Tickets/${ticket.ticketId}`,
         ticket
       );
       navigate("/");
+      toast.success(" Updated Successfully! ");
+
       console.log(ticket);
     } catch (err) {
       console.log(err);

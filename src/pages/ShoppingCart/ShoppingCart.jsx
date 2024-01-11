@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { variables } from "../../Variables";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const ShoppingCart = () => {
   const [tickets, settickets] = useState([]);
@@ -9,45 +10,52 @@ const ShoppingCart = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://localhost:7051/api/ShoppingCarts/${id}`);
-      window.location.reload();
+      if (
+        window.confirm("Are you sure you want to delete this venue?") == true
+      ) {
+        await axios.delete(`https://localhost:7051/api/ShoppingCarts/${id}`);
+        toast.success(" Deleted Successfully! ");
+        // window.location.reload();
+        fetchAll();
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const shoppingCartResponse = await fetch(
-          variables.API_URL + "shoppingCarts"
+  const fetchAll = async () => {
+    try {
+      const shoppingCartResponse = await fetch(
+        variables.API_URL + "shoppingCarts"
+      );
+      const ticketResponse = await fetch(variables.API_URL + "tickets");
+
+      const shoppingCartData = await shoppingCartResponse.json();
+      const ticketData = await ticketResponse.json();
+
+      const shoppingCartWithTicket = shoppingCartData.map((shoppingCart) => {
+        const ticket = ticketData.find(
+          (ticket) => ticket.ticketId === shoppingCart.ticketId
         );
-        const ticketResponse = await fetch(variables.API_URL + "tickets");
+        const ticketPrice = ticket ? ticket.ticketPrice : "Unknown ticket";
+        return { ...shoppingCart, ticketPrice };
+      });
 
-        const shoppingCartData = await shoppingCartResponse.json();
-        const ticketData = await ticketResponse.json();
-
-        const shoppingCartWithTicket = shoppingCartData.map((shoppingCart) => {
-          const ticket = ticketData.find(
-            (ticket) => ticket.ticketId === shoppingCart.ticketId
-          );
-          const ticketPrice = ticket ? ticket.ticketPrice : "Unknown ticket";
-          return { ...shoppingCart, ticketPrice };
-        });
-
-        setshoppingCart(shoppingCartWithTicket);
-        console.log(shoppingCartWithTicket);
-        settickets(ticketData);
-        // console.log(ticketData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
+      setshoppingCart(shoppingCartWithTicket);
+      console.log(shoppingCartWithTicket);
+      settickets(ticketData);
+      // console.log(ticketData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchAll();
   }, []);
   return (
     <div>
+      <ToastContainer />
+
       <div className="col-lg-6">
         <h4 className="sectionTitle">ShoppingCart</h4>
       </div>
@@ -64,7 +72,9 @@ const ShoppingCart = () => {
                 <span className="currentPrice">
                   Price: {ShoppingCart.ticketPrice}$
                 </span>
-                <Link to={`/update-shoppingcart/${ShoppingCart.shoppingCartId}`}>
+                <Link
+                  to={`/update-shoppingcart/${ShoppingCart.shoppingCartId}`}
+                >
                   <p> Update</p>
                 </Link>
                 <button

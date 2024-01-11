@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { DateTime } from "luxon";
-import { variables } from '../../../Variables';
+import { variables } from "../../../Variables";
+import { toast } from "react-toastify";
 
 const CreateEvent = () => {
   const [event, setEvent] = useState({
@@ -29,64 +30,60 @@ const CreateEvent = () => {
     setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-
   const handleClick = async (e) => {
     e.preventDefault();
-  
+
     if (!event.name.trim() || !event.date.trim() || !event.eventCategory) {
       setFormError(true);
       return;
     }
-  
+
     // Ensure eventCategory is a number
     const eventCategoryNumber = parseInt(event.eventCategory, 10);
     if (isNaN(eventCategoryNumber)) {
       setFormError(true);
       return;
     }
-  
+
     try {
       await axios.post("https://localhost:7051/api/Events/PostEvent", {
         ...event,
         eventCategory: eventCategoryNumber,
       });
       navigate("/");
+      toast.success(" Created Successfully! ");
     } catch (err) {
       console.log(err);
     }
   };
-  
-  
 
   return (
     <div>
       <h2 className="s">Add new Event</h2>
-            <input
-              type="text"
-              placeholder="name"
-              onChange={handleChange}
-              name="name"
-            />
-            <input
-              type="date"
-              placeholder="date"
-              onChange={handleChange}
-              name="date"
-            />
-            <input
-              type="number"
-              placeholder="eventCategory"
-              onChange={handleChange}
-              name="eventCategory"
-            />
-            {formError && (
-              <p className="error-message">Please fill in all fields.</p>
-            )}
-            <button className="formButton" onClick={handleClick}>
-              Add
-            </button>
+      <input
+        type="text"
+        placeholder="name"
+        onChange={handleChange}
+        name="name"
+      />
+      <input
+        type="date"
+        placeholder="date"
+        onChange={handleChange}
+        name="date"
+      />
+      <input
+        type="number"
+        placeholder="eventCategory"
+        onChange={handleChange}
+        name="eventCategory"
+      />
+      {formError && <p className="error-message">Please fill in all fields.</p>}
+      <button className="formButton" onClick={handleClick}>
+        Add
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default CreateEvent
+export default CreateEvent;

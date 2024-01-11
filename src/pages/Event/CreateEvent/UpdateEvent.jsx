@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UpdateEvent = () => {
   const [event, setEvent] = useState({
@@ -60,6 +61,7 @@ const UpdateEvent = () => {
         event
       );
       navigate("/");
+      toast.success(" Updated Successfully! ");
       console.log(event);
     } catch (err) {
       console.log(err);

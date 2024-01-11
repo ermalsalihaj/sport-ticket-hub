@@ -1,49 +1,70 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { variables } from "../../Variables";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 const Ticket = () => {
   const [events, setevents] = useState([]);
   const [tickets, settickets] = useState([]);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const ticketResponse = await fetch(variables.API_URL + "tickets");
-        const eventResponse = await fetch(variables.API_URL + "events");
-
-        const ticketData = await ticketResponse.json();
-        const eventData = await eventResponse.json();
-
-        const ticketsWithEvent = ticketData.map((ticket) => {
-          const event = eventData.find(
-            (event) => event.eventId === ticket.eventId
-          );
-          const eventName = event ? event.name : "Unknown Event";
-          const eventDate = event ? event.date : "Unknown Date";
-          return { ...ticket, eventName, eventDate };
-        });
-
-        settickets(ticketsWithEvent);
-        // console.log(ticketsWithEvent);
-        setevents(eventData);
-        // console.log(eventData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchAll();
   }, []);
 
+  const fetchAll = async () => {
+    try {
+      const ticketResponse = await fetch(variables.API_URL + "tickets");
+      const eventResponse = await fetch(variables.API_URL + "events");
+
+      const ticketData = await ticketResponse.json();
+      const eventData = await eventResponse.json();
+
+      const ticketsWithEvent = ticketData.map((ticket) => {
+        const event = eventData.find(
+          (event) => event.eventId === ticket.eventId
+        );
+        const eventName = event ? event.name : "Unknown Event";
+        const eventDate = event ? event.date : "Unknown Date";
+        return { ...ticket, eventName, eventDate };
+      });
+
+      settickets(ticketsWithEvent);
+      // console.log(ticketsWithEvent);
+      setevents(eventData);
+      // console.log(eventData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://localhost:7051/api/Tickets/${id}`);
-      window.location.reload();
+      if (
+        window.confirm("Are you sure you want to delete this venue?") == true
+      ) {
+        await axios.delete(`https://localhost:7051/api/Tickets/${id}`);
+        toast.success(" Ticket Deleted! ");
+        fetchAll();
+      }
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleAddToCart = (ticketId) => {
+    const data = {
+      ticketId: ticketId,
+    };
+    axios
+      .post("https://localhost:7051/api/ShoppingCarts/PostShoppingCart", data)
+      .then((result) => {
+        toast.success(" Added to Bag! ");
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   function formatDate(dateString) {
@@ -60,6 +81,7 @@ const Ticket = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div className="col-lg-6">
         <h4 className="sectionTitle">Tickets</h4>
         <Link to="/create-ticket">Create Ticket</Link>
@@ -93,6 +115,10 @@ const Ticket = () => {
                   onClick={() => handleDelete(ticket.ticketId)}
                 >
                   Delete
+                </button>
+
+                <button onClick={() => handleAddToCart(ticket.ticketId)}>
+                  ADD
                 </button>
               </div>
             </div>

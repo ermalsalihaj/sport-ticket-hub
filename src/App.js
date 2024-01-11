@@ -16,6 +16,8 @@ import CreateTicket from "./pages/Ticket/CreateTicket/CreateTicket";
 import UpdateTicket from "./pages/Ticket/CreateTicket/UpdateTicket";
 
 import UpdateShoppingCart from "./pages/ShoppingCart/CreateShoppingCart/UpdateShoppingCart";
+import Bag from "./pages/Bag/Bag";
+import Ticket from "./pages/Ticket/Ticket";
 
 export const AppContext = React.createContext();
 
@@ -25,10 +27,8 @@ function App() {
 
   return (
     <>
-      {/* <Routes> */}
       <AppContext.Provider value={{ library, setLibrary, bag, setBag }}>
         <Router>
-          {/* <Main /> */}
           <Routes>
             <Route path="/create-venue" element={<CreateVenue />} />
             <Route path="/login" element={<Login />} />
@@ -46,10 +46,7 @@ function App() {
             <Route path="/" element={<Main />} />
           </Routes>
         </Router>
-
-        {/* <Event/> */}
       </AppContext.Provider>
-      {/* </Routes> */}
     </>
   );
 }
