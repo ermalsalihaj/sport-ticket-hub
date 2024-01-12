@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 const Event = () => {
   const [events, setevents] = useState([]);
   const [venues, setvenues] = useState([]);
+  const userRole = localStorage.getItem("role");
 
   useEffect(() => {
     fetchAll();
@@ -70,7 +71,11 @@ const Event = () => {
 
       <div className="col-lg-6">
         <h4 className="sectionTitle">Events</h4>
-        <Link to="/create-event">Create Event</Link>
+        {userRole === "admin" && (
+          <>
+            <Link to="/create-event"><button className="btn btn-warning">Create Event</button></Link>
+          </>
+        )}
       </div>
       <div className="row mb-4 mt-4">
         {events.map((event) => (
@@ -90,17 +95,19 @@ const Event = () => {
                 </span>
 
                 <span className="currentPrice">{formatDate(event.date)}</span>
-                <Link to={`/update-event/${event.eventId}`}>
-                  <p> Update</p>
-                </Link>
-                <button
-                  className="delete"
-                  onClick={() => handleDelete(event.eventId)}
-                >
-                  Delete
-                </button>
-
-                {/* <span className="currentPrice">Price: {event.eventPrice}$</span> */}
+                {userRole === "admin" && (
+                  <>
+                    <Link to={`/update-event/${event.eventId}`}>
+                      <button className="btn btn-primary">Update</button>
+                    </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(event.eventId)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

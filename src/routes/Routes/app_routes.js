@@ -4,6 +4,7 @@ import CreateEvent from "../../pages/Event/CreateEvent/CreateEvent";
 import CreateShoppingCart from "../../pages/ShoppingCart/CreateShoppingCart/CreateShoppingCart";
 import CreateTicket from "../../pages/Ticket/CreateTicket/CreateTicket";
 import Login from "../../pages/Login/Login";
+import Admin from "../../pages/Admin/Admin";
 
 import { RouteType } from "./route_type";
 
@@ -33,6 +34,11 @@ export const AppRoutes = [
     type: RouteType.PUBLIC,
     path: "/create-ticket",
     element: <CreateTicket />,
+  },
+  {
+    type: RouteType.PUBLIC,
+    path: "/admin",
+    element: <Admin />,
   },
 
   

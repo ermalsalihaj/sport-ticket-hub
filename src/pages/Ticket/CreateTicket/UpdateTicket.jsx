@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./updateTicket.css"
 
 const UpdateTicket = () => {
   const [ticket, setTicket] = useState({
@@ -68,31 +69,48 @@ const UpdateTicket = () => {
       console.log(err);
     }
   };
-
+  useEffect(() => {
+    document.body.classList.add("body-with-update-ticket");
+    return () => {
+      document.body.classList.remove("body-with-update-ticket");
+    };
+  }, []);
   return (
-    <div>
+    <div className="container">
       <h2 className="s">Update Ticket</h2>
+      <div className="mb-3">
+
       <input
         type="text"
+        className="form-control"
         placeholder="Seat Number"
         onChange={handleChange}
         name="seatNumber"
         value={ticket.seatNumber}
       />
+      </div>
+      <div className="mb-3">
+
       <input
         type="number"
+        className="form-control"
         placeholder="Ticket Price"
         onChange={handleChange}
         name="ticketPrice"
         value={ticket.ticketPrice}
       />
+      </div>
+      <div className="mb-3">
+
       <input
         type="number"
+        className="form-control"
         placeholder="Event ID"
         onChange={handleChange}
         name="eventId"
         value={ticket.eventId}
       />
+      </div>
       <label>
         <input
           type="checkbox"
@@ -104,7 +122,7 @@ const UpdateTicket = () => {
         Available
       </label>
 
-      <button className="formButton" onClick={handleClick}>
+      <button className="btn btn-primary" onClick={handleClick}>
         Update
       </button>
     </div>

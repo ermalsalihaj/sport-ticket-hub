@@ -28,7 +28,7 @@ function Home({ games, reference }) {
             <Venue/>
             <Event/>
             <Ticket/>
-            <ShoppingCart/>
+            
           {/* {tickets.map((ticket) => (
             <div className="col-xl-3 col-lg-4 col-md-6">
               <div className="gameCard">

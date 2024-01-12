@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { variables } from "../../../Variables";
 import { toast } from "react-toastify";
+import "./updateEvent.css";
 
 const CreateEvent = () => {
   const [event, setEvent] = useState({
@@ -29,7 +30,12 @@ const CreateEvent = () => {
 
     setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-
+  useEffect(() => {
+    document.body.classList.add("body-with-update-user");
+    return () => {
+      document.body.classList.remove("body-with-update-user");
+    };
+  }, []);
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -58,28 +64,37 @@ const CreateEvent = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2 className="s">Add new Event</h2>
-      <input
-        type="text"
-        placeholder="name"
-        onChange={handleChange}
-        name="name"
-      />
-      <input
-        type="date"
-        placeholder="date"
-        onChange={handleChange}
-        name="date"
-      />
-      <input
-        type="number"
-        placeholder="eventCategory"
-        onChange={handleChange}
-        name="eventCategory"
-      />
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="name"
+          onChange={handleChange}
+          name="name"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="date"
+          className="form-control"
+          placeholder="date"
+          onChange={handleChange}
+          name="date"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="number"
+          className="form-control"
+          placeholder="eventCategory"
+          onChange={handleChange}
+          name="eventCategory"
+        />
+      </div>
       {formError && <p className="error-message">Please fill in all fields.</p>}
-      <button className="formButton" onClick={handleClick}>
+      <button className="btn btn-primary mt-2" onClick={handleClick}>
         Add
       </button>
     </div>

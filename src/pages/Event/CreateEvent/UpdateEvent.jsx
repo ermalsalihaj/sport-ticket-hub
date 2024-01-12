@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./updateEvent.css"; // Make sure to create this CSS file
 
 const UpdateEvent = () => {
   const [event, setEvent] = useState({
@@ -68,32 +69,54 @@ const UpdateEvent = () => {
     }
   };
 
+  useEffect(() => {
+    // Add the unique class to the body element when the component mounts
+    document.body.classList.add("body-with-update-event");
+
+    // Remove the class when the component unmounts
+    return () => {
+      document.body.classList.remove("body-with-update-event");
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="container">
       <h2 className="s">Update Event</h2>
+      <div className="mb-3">
+
       <input
         type="text"
+        className="form-control"
         placeholder="name"
         onChange={handleChange}
         name="name"
         value={event.name}
       />
+      </div>
+      <div className="mb-3">
+
       <input
         type="date"
+        className="form-control"
         placeholder="date"
         onChange={handleChange}
         name="date"
         value={event.date}
       />
+      </div>
+      <div className="mb-3">
+
       <input
         type="number"
+        className="form-control"
         placeholder="eventCategory"
         onChange={handleChange}
         name="eventCategory"
         value={event.eventCategory}
       />
+      </div>
 
-      <button className="formButton" onClick={handleClick}>
+      <button className="btn btn-primary mt-2" onClick={handleClick}>
         Update
       </button>
     </div>

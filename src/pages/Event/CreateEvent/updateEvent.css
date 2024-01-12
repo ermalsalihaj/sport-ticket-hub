@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  .body-with-update-event {
+    background-color: #2c3b4d;
+  }
+  
+  .container {
+    background: white;
+    height: 50vh;
+    width: 50vw;
+    border: 1px solid rgb(9, 9, 9);
+    border-radius: 15px;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  label{
+    color: black;
+  }
+  
+  h2 {
+    color: black;
+    margin-bottom: 20px; 
+  }

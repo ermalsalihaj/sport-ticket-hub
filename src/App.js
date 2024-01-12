@@ -14,7 +14,8 @@ import UpdateEvent from "./pages/Event/CreateEvent/UpdateEvent";
 import Login from "./pages/Login/Login";
 import CreateTicket from "./pages/Ticket/CreateTicket/CreateTicket";
 import UpdateTicket from "./pages/Ticket/CreateTicket/UpdateTicket";
-
+import Admin from "./pages/Admin/Admin";
+import UpdateUser from "./pages/Admin/UpdateUser";
 import UpdateShoppingCart from "./pages/ShoppingCart/CreateShoppingCart/UpdateShoppingCart";
 import Bag from "./pages/Bag/Bag";
 import Ticket from "./pages/Ticket/Ticket";
@@ -32,11 +33,13 @@ function App() {
           <Routes>
             <Route path="/create-venue" element={<CreateVenue />} />
             <Route path="/login" element={<Login />} />
-
+            <Route path="/admin" element={<Admin />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/create-ticket" element={<CreateTicket />} />
 
             <Route path="/update-venue/:venueId" element={<UpdateVenue />} />
+            <Route path="/update-user/:userId" element={<UpdateUser />} />
+
             <Route path="/update-event/:eventId" element={<UpdateEvent />} />
             <Route path="/update-ticket/:ticketId" element={<UpdateTicket />} />
             <Route

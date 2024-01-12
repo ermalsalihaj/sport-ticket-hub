@@ -15,7 +15,6 @@ const ShoppingCart = () => {
       ) {
         await axios.delete(`https://localhost:7051/api/ShoppingCarts/${id}`);
         toast.success(" Deleted Successfully! ");
-        // window.location.reload();
         fetchAll();
       }
     } catch (err) {

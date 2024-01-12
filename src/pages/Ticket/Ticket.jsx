@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 const Ticket = () => {
   const [events, setevents] = useState([]);
   const [tickets, settickets] = useState([]);
+  const userRole = localStorage.getItem("role");
 
   useEffect(() => {
     fetchAll();
@@ -84,7 +85,11 @@ const Ticket = () => {
       <ToastContainer />
       <div className="col-lg-6">
         <h4 className="sectionTitle">Tickets</h4>
-        <Link to="/create-ticket">Create Ticket</Link>
+        {userRole === "admin" && (
+          <>
+            <Link to="/create-ticket"><button className="btn btn-warning">Create Ticket</button></Link>
+          </>
+        )}
       </div>
       <div className="row mb-4 mt-4">
         {tickets.map((ticket) => (
@@ -106,20 +111,26 @@ const Ticket = () => {
                 <span className="currentPrice">
                   Price: {ticket.ticketPrice}$
                 </span>
+                {userRole === "admin" && (
+                  <>
+                    <Link to={`/update-ticket/${ticket.ticketId}`}>
+                      <button className="btn btn-primary">Update</button>
+                    </Link>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(ticket.ticketId)}
+                    >
+                      Delete
+                    </button>
 
-                <Link to={`/update-ticket/${ticket.ticketId}`}>
-                  <p> Update</p>
-                </Link>
-                <button
-                  className="delete"
-                  onClick={() => handleDelete(ticket.ticketId)}
-                >
-                  Delete
-                </button>
-
-                <button onClick={() => handleAddToCart(ticket.ticketId)}>
-                  ADD
-                </button>
+                    <button
+                      className="btn btn-warning"
+                      onClick={() => handleAddToCart(ticket.ticketId)}
+                    >
+                      ADD
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

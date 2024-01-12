@@ -92,3 +92,14 @@ header {
   text-decoration: none;
   font-size: 0.6rem;
 }
+.link a {
+  text-decoration: none; 
+  color: white;
+  outline: none;
+  transition: 0.3 ease;
+  font-size: larger;
+}
+.link a:hover{
+  background: white;
+  color: black;
+}

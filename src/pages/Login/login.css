@@ -11,6 +11,9 @@
     --header-text-color: #ffffff;
     --icon-bg-color: var(--second);
   }
+  body{
+    background-color: aqua;
+  }
   
   .container {
     display: flex;

@@ -14,7 +14,10 @@ function Login() {
   const [role, setRole] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for tracking login status
   const navigate = useNavigate();
-
+  const loginPageStyle = {
+    backgroundColor: '#192938',
+  };
+  
   const register = (e) => {
     e.preventDefault();
     Axios.post("https://localhost:7051/api/Users/PostUser", {
@@ -44,37 +47,6 @@ function Login() {
       });
   };
 
-  // const login = (e) => {
-  //   e.preventDefault();
-  //   Axios.post("https://localhost:7051/api/Users", {
-  //     username: username,
-  //     password: password,
-  //     role: role,
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         setLoginStatus("Login was successful");
-
-  //         // Update login status in the component state
-  //         setIsLoggedIn(true);
-
-  //         // Save user details to localStorage if needed
-  //         localStorage.setItem("role", response.data.role);
-  //         localStorage.setItem("id", response.data.userId);
-
-  //         navigate("/");
-  //       } else {
-  //         setLoginStatus("Invalid username or password");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoginStatus("An error occurred.");
-  //     });
-  // };
-
-  // Axios interceptor to attach token to headers
-  
   axios.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("token");
@@ -95,15 +67,15 @@ function Login() {
     Axios.post("https://localhost:7051/api/Users/Login", {
       username: username,
       password: password,
+      role: role,
     })
       .then((response) => {
         if (response.status === 200) {
           setLoginStatus("Login was successful");
-
+          localStorage.setItem("role", response.data.user.role);
           localStorage.setItem("username", username);
           localStorage.setItem("token", response.data.token);
           navigate("/");
-          // console.log(response.data.token);
         } else {
           setLoginStatus("Invalid username or password");
         }
@@ -119,7 +91,7 @@ function Login() {
   };
 
   return (
-    <div
+    <div style={loginPageStyle} 
       className="d-flex align-items-center justify-content-center vh-100 "
       id="login"
     >
