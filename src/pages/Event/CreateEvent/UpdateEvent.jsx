@@ -6,6 +6,7 @@ import "./updateEvent.css"; // Make sure to create this CSS file
 
 const UpdateEvent = () => {
   const [event, setEvent] = useState({
+    eventId: 0,
     name: "",
     date: "",
     eventCategory: 0,
@@ -21,7 +22,9 @@ const UpdateEvent = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const response = await axios.get(`https://localhost:7051/api/Events/${idevent}`);
+        const response = await axios.get(
+          `https://localhost:7051/api/Events/${idevent}`
+        );
         setsport(response.data);
         console.log(response.data);
       } catch (error) {
@@ -36,6 +39,7 @@ const UpdateEvent = () => {
     if (sport) {
       setEvent((prev) => ({
         ...prev,
+        eventId: sport.eventId,
         name: sport.name,
         date: formatDateForInput(sport.date),
         eventCategory: sport.eventCategory,
@@ -46,12 +50,16 @@ const UpdateEvent = () => {
 
   const formatDateForInput = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate = date.toISOString().split('T')[0];
+    const formattedDate = date.toISOString().split("T")[0];
     return formattedDate;
   };
 
   const handleChange = (e) => {
-    setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const value =
+      e.target.name === "eventCategory"
+        ? parseInt(e.target.value)
+        : e.target.value;
+    setEvent((prev) => ({ ...prev, [e.target.name]: value }));
   };
 
   const handleClick = async (e) => {
@@ -83,37 +91,39 @@ const UpdateEvent = () => {
     <div className="container">
       <h2 className="s">Update Event</h2>
       <div className="mb-3">
-
-      <input
-        type="text"
-        className="form-control"
-        placeholder="name"
-        onChange={handleChange}
-        name="name"
-        value={event.name}
-      />
+        <input
+          type="text"
+          className="form-control"
+          placeholder="name"
+          onChange={handleChange}
+          name="name"
+          value={event.name}
+        />
       </div>
       <div className="mb-3">
-
-      <input
-        type="date"
-        className="form-control"
-        placeholder="date"
-        onChange={handleChange}
-        name="date"
-        value={event.date}
-      />
+        <input
+          type="date"
+          className="form-control"
+          placeholder="date"
+          onChange={handleChange}
+          name="date"
+          value={event.date}
+        />
       </div>
       <div className="mb-3">
+        <label htmlFor="category">Select Category:</label>
 
-      <input
-        type="number"
-        className="form-control"
-        placeholder="eventCategory"
-        onChange={handleChange}
-        name="eventCategory"
-        value={event.eventCategory}
-      />
+        <select
+          name="eventCategory"
+          value={event.eventCategory}
+          onChange={handleChange}
+        >
+          <option value={null}>All Categories</option>
+          <option value={1}>Football</option>
+          <option value={2}>Basketball</option>
+          <option value={3}>Tennis</option>
+          <option value={4}>Ucf</option>
+        </select>
       </div>
 
       <button className="btn btn-primary mt-2" onClick={handleClick}>

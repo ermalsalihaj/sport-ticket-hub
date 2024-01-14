@@ -79,9 +79,10 @@ const Event = () => {
       </div>
       <div className="row mb-4 mt-4">
         {events.map((event) => (
-          <div className="col-xl-3 col-lg-4 col-md-6">
+          <div className="col-xl-3 col-lg-4 col-md-6" key={event.eventId}>
             <div className="gameCard">
-              <img className="img-fluid" />
+            {console.log("Image URL:", event.image)}
+            <img className="img-fluid" src={`https://localhost:7051/Images/${event.image}`} alt={event.name} />
               <div className="gameFeature">
                 <span className="gameType">{event.name}</span>
                 {/* <h3 className="gameTitle mt-4 mb-3">{event.isAvailable ? "Available" : "Not Available"}</h3> */}

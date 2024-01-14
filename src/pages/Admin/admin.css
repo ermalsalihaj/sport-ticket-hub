@@ -94,6 +94,7 @@ button:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-right: 50px;
 }
 .length-box {
   background-color: #2c3b4d;

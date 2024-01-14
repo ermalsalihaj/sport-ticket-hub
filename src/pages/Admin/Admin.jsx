@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EventCategoryEnum from "../Event/EventCategoryEnum";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -124,6 +125,38 @@ const AdminDashboard = () => {
     }
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  }
+
+  const [searchdata, setsearchdata] = useState(users);
+
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    setsearchdata(users);
+  }, [users]);
+  
+  const handleSearch = (e) => {
+    const searchText = e.target.value.toLowerCase();
+  
+    const filteredUsers = searchText
+      ? users.filter((user) =>
+          user.userName.toLowerCase().includes(searchText)
+        )
+      : users;
+  
+    setsearchdata(filteredUsers);
+    setText(searchText);
+  };
   const navigate = useNavigate();
 
   const handleLogOut = () => {
@@ -213,6 +246,13 @@ const AdminDashboard = () => {
     return (
       <div>
         <h2 style={{ marginLeft: "250px" }}>Users</h2>
+            <input style={{ marginLeft: "250px" }}
+                    type="text"
+                    name="search"
+                    value={text}
+                    placeholder="Search"
+                    onChange={handleSearch}
+                  />
         <table className="table">
           <thead>
             <tr>
@@ -224,7 +264,7 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {searchdata.map((user) => (
               <tr key={user.userId}>
                 <td>{user.userId}</td>
                 <td>{user.userName}</td>
@@ -273,8 +313,11 @@ const AdminDashboard = () => {
               <tr key={event.eventId}>
                 <td>{event.eventId}</td>
                 <td>{event.name}</td>
-                <td>{event.date}</td>
-                <td>{event.eventCategory}</td>
+                <td>{formatDate(event.date)}</td>
+                <td>
+                  Category:{" "}
+                  {Object.keys(EventCategoryEnum)[event.eventCategory - 1]}
+                </td>
                 <td>
                   <button
                     className="btn btn-danger button-danger"

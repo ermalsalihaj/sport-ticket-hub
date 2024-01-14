@@ -14,10 +14,8 @@ const UpdateVenue = () => {
 
   const [sport, setsport] = useState(null);
 
-  const { venueId } = useParams();
-  // console.log(venueId);
   const idvenue = location.pathname.split("/")[2];
-  //   console.log(idvenue);
+
   useEffect(() => {
     document.body.classList.add("body-with-update-venue");
     return () => {
@@ -32,7 +30,6 @@ const UpdateVenue = () => {
         );
         setsport(response.data);
         console.log(response.data);
-        // console.log(response.data[venueId - 1]);
       } catch (error) {
         console.error(error);
       }

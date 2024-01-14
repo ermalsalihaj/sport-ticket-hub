@@ -36,6 +36,7 @@ const CreateVenue = () => {
       console.log(err);
     }
   };
+  
   useEffect(() => {
     document.body.classList.add("body-with-update-venue");
     return () => {

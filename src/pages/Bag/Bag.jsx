@@ -12,19 +12,18 @@ function Bag({ games, reference }) {
   // const { selectedTicket } = useContext(TicketContext);
 
   const handleTotalPayment = () => {
-    if (games && games.length > 0) {
-      return games
-        .map((game) => game.price * (1 - game.discount))
-        .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+    if (shoppingCarts && shoppingCarts.length > 0) {
+      return shoppingCarts
+        .map((item) => item.ticketPrice)
+        .reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue), 0)
         .toFixed(2);
     }
     return 0;
   };
 
-
   useEffect(() => {
     setTotal(handleTotalPayment());
-  }, [games]);
+  }, [shoppingCarts]);
 
   useEffect(() => {
     fetchAll();
@@ -66,11 +65,7 @@ function Bag({ games, reference }) {
       ) : ( */}
         <>
           <div className="row">
-          {/* {shoppingCarts.map((ticket) => (
-            <p>{ticket.ticketPrice}</p>
-        // <ShopBagItem key={index} ticket={ticket} />
-      ))} */}
-            <div className="table-responsive">
+            {/* <div className="table-responsive">
               <table className="shopBagTable table table-borderless align-middle">
                 <thead>
                   <tr>
@@ -81,8 +76,25 @@ function Bag({ games, reference }) {
                 </thead>
                 <tbody>
                   {shoppingCarts.map((shoppingCart) => (
-                    // <tr key={shoppingCart.shoppingCartsid}>
                     <tr key={shoppingCart.ticketId === ticket.ticketId}>
+                      <td>{shoppingCart.ticketseat}</td>
+                      <td>Price: {shoppingCart.ticketPrice}$</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div> */}
+            <div className="table-responsive">
+              <table className="shopBagTable table table-borderless align-middle">
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Preview</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {shoppingCarts.map((shoppingCart) => (
+                    <tr key={shoppingCart.ticketId === ticket.ticketId} className="shopBagItem">
                       <td>{shoppingCart.ticketseat}</td>
                       <td>Price: {shoppingCart.ticketPrice}$</td>
                     </tr>
@@ -93,35 +105,9 @@ function Bag({ games, reference }) {
 
 
 
-
-
-            <div className="table-responsive">
-              <table className="shopBagTable table table-borderless align-middle">
-                <thead>
-                  <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Preview</th>
-                    <th scope="col">Game</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Discount</th>
-                    <th scope="col">Payment</th>
-                    <th scope="col">Remove</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* {games.map((game, index) => (
-                    <ShopBagItem index={index} key={game._id} game={game} />
-                  ))} */}
-                </tbody>
-              </table>
-            </div>
-
-
-
           </div>
           <div className="row d-flex justify-content-between mt-1">
             <div className="col-lg-2 d-flex align-items-center">
-              {/* <p className="itemCount">Total Items:{games.length}</p> */}
             </div>
             <div className="col-lg-10 d-flex justify-content-end">
               <div className="payment">
