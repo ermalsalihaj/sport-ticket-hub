@@ -5,8 +5,12 @@ import React, { useState } from "react";
 import "./App.css";
 import Main from "./pages/Main/Main";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Blog from "./pages/Blog/Blog";
+import CreateBlog from "./pages/Blog/CreateBlog/CreateBlog";
+import UpdateBlog from "./pages/Blog/CreateBlog/UpdateBlog";
+import BlogDetails from "./pages/Blog/BlogDetails";
 import Event from "./pages/Event/Event";
-// import Routes from "./routes/Routes";
+import CreateComment from "./pages/Blog/CreateComment/CreateComment";
 import CreateVenue from "./pages/Venue/CreateVenue/CreateVenue";
 import UpdateVenue from "./pages/Venue/CreateVenue/UpdateVenue";
 import CreateEvent from "./pages/Event/CreateEvent/CreateEvent";
@@ -33,13 +37,18 @@ function App() {
           <Routes>
             <Route path="/create-venue" element={<CreateVenue />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogDetails />} />
+
             <Route path="/admin" element={<Admin />} />
             <Route path="/create-event" element={<CreateEvent />} />
-            <Route path="/create-ticket" element={<CreateTicket />} />
+            <Route path="/create-comment/:blogId" element={<CreateComment />} />
 
+            <Route path="/create-ticket" element={<CreateTicket />} />
+            <Route path="/create-blog" element={<CreateBlog />} />
             <Route path="/update-venue/:venueId" element={<UpdateVenue />} />
             <Route path="/update-user/:userId" element={<UpdateUser />} />
-
+            <Route path="/update-blog/:id" element={<UpdateBlog />} />
             <Route path="/update-event/:eventId" element={<UpdateEvent />} />
             <Route path="/update-ticket/:ticketId" element={<UpdateTicket />} />
             <Route

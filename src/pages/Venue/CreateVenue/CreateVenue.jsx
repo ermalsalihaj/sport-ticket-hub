@@ -30,6 +30,8 @@ const CreateVenue = () => {
     }
 
     try {
+      console.log("Request Venue:", venue);
+
       await axios.post("https://localhost:7051/api/Venues/PostVenue", venue);
       navigate("/");
     } catch (err) {

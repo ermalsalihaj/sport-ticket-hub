@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 import "./updateEvent.css";
 
 const CreateEvent = () => {
-  const defaultimage = '/sport-ticket-hub/src/images/UBT LOGO.png'
+  const defaultimage = "/sport-ticket-hub/src/images/UBT LOGO.png";
 
   const [event, setEvent] = useState({
     eventId: 0,
     name: "",
     date: "",
     eventCategory: 0,
-    image: "",
+    image: "s", // Set the default value to "s"
     imageSrc: defaultimage,
     imageFile: null,
   });
@@ -24,9 +24,6 @@ const CreateEvent = () => {
   const handleChange = (e) => {
     console.log("Handling change...");
     if (e.target.name === "date") {
-      // const selectedDate = DateTime.fromFormat(e.target.value, "yyyy-MM-dd", {
-      //   zone: "Europe/Belgrade",
-      // }).toISODate();
       const selectedDate = e.target.value;
       const today = DateTime.now().toISODate();
 
@@ -37,7 +34,7 @@ const CreateEvent = () => {
 
       setEvent((prev) => ({
         ...prev,
-        date: selectedDate, // Set event.date with the selected date
+        date: selectedDate,
       }));
     } else if (e.target.name === "image") {
       setEvent((prev) => ({
@@ -59,8 +56,6 @@ const CreateEvent = () => {
     };
   }, []);
 
-
-
   const handleClick = async (e) => {
     e.preventDefault();
 
@@ -76,138 +71,95 @@ const CreateEvent = () => {
     }
 
     const formData = new FormData();
-    formData.append("eventId", event.eventId);
-    formData.append("name", event.name);
-    formData.append("date", event.date);
-    formData.append("eventCategory", event.eventCategory);
-    formData.append("ImageFile", event.imageFile);
-    addData(formData)
-
-    // console.log(setEvent);
-
-    // try {
-    //   await axios.post(
-    //     "https://localhost:7051/api/Events/PostEvent",
-    //     formData,
-    //     {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-
-    //     // {
-    //     //   ...event,
-    //     //   eventCategory: eventCategoryNumber,
-    //     // }
-    //   );
-    //   console.log("API Response:", response.data);
-    // navigate("/");
-    //   toast.success(" Created Successfully! ");
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
+    formData.append("Name", event.name);
+    formData.append("Date", event.date);
+    formData.append("Image", event.image); // This should be the file name
+    formData.append("ImageFile", event.imageFile); // This should be the file content
+    formData.append("EventCategory", event.eventCategory);
+    addData(formData);
   };
 
   const addData = async (formData) => {
     try {
-      
+      console.log("Request Body:", event);
+
       await axios.post(
-        "https://localhost:7051/api/Events/PostEvent", formData,
+        "https://localhost:7051/api/Events/PostEvent",
+        formData,
         {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-      )
+          headers: {
+            accept: "text/plain",
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error("Error adding data:", error);
+      if (error.response) {
+        console.error("Server responded with:", error.response.data);
+
+        // Log specific validation errors
+        if (error.response.data.errors) {
+          console.error("Validation errors:", error.response.data.errors);
+        }
+      }
     }
-  }
-  // try {
-  //   const response = await axios.post(
-  //     "https://localhost:7051/api/Events/PostEvent",
-  //     formData,
-  //     {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     }
-  //   );
-  //   console.log("API Response:", response.data);
-  //   navigate("/");
-  //   toast.success(" Created Successfully! ");
-  // } catch (err) {
-  //   console.log("API Error:", err);
-
-  // if (err.response && err.response.status === 400) {
-  //     // Handle validation errors or other specific cases
-  //     console.log("Validation Errors:", err.response.data);
-  //     // Display validation errors to the user
-  //     // e.g., setFormErrors(err.response.data);
-  // } else {
-  //     // Handle other errors
-  //     toast.error("An error occurred while creating the event.");
-  // }
-  // }
-
-  console.log(event);
+  };
 
   return (
     <div className="container">
       <h2 className="s">Add new Event</h2>
       <form autoComplete="off" noValidate onSubmit={handleClick}>
-
-      <div className="mb-3">
-        <img src={event.imageSrc} alt="" style={{ width: "250px" }}/>
-        <input
-          type="text"
-          className="form-control"
-          placeholder="name"
-          onChange={handleChange}
-          name="name"
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="date"
-          className="form-control"
-          placeholder="date"
-          onChange={handleChange}
-          name="date"
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="file"
-          accept="images/*"
-          className="form-control"
-          // placeholder="image"
-          onChange={handleChange}
-          name="image"
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="category">Select Category:</label>
-
-        <select
-          name="eventCategory"
-          value={event.eventCategory}
-          onChange={handleChange}
-        >
-          <option value={null}>All Categories</option>
-          <option value={1}>Football</option>
-          <option value={2}>Basketball</option>
-          <option value={3}>Tennis</option>
-          <option value={4}>Ucf</option>
-        </select>
-      </div>
-      {formError && <p className="error-message">Please fill in all fields.</p>}
-      <button className="btn btn-primary mt-2" type="submit">
-        Add
-      </button>
-          </form>
+        <div className="mb-3">
+          <img src={event.imageSrc} alt="" style={{ width: "250px" }} />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="name"
+            onChange={handleChange}
+            name="name"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="date"
+            className="form-control"
+            placeholder="date"
+            onChange={handleChange}
+            name="date"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="file"
+            accept="image/*"
+            className="form-control"
+            onChange={handleChange}
+            name="image"
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="category">Select Category:</label>
+          <select
+            name="eventCategory"
+            value={event.eventCategory}
+            onChange={handleChange}
+          >
+            <option value={null}>All Categories</option>
+            <option value={1}>Football</option>
+            <option value={2}>Basketball</option>
+            <option value={3}>Tennis</option>
+            <option value={4}>Ucf</option>
+          </select>
+        </div>
+        {formError && (
+          <p className="error-message">Please fill in all fields.</p>
+        )}
+        <button className="btn btn-primary mt-2" type="submit">
+          Add
+        </button>
+      </form>
     </div>
   );
 };

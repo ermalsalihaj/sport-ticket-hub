@@ -1,0 +1,15 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set body background color variable */
+:root {
+    --bgColor: #192938;
+}
+
+/* Apply background color to body */
+body {
+    background-color: var(--bgColor);
+}

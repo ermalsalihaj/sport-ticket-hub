@@ -1,0 +1,39 @@
+body {
+  background-color: #192938;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #192938;
+  border: none;
+  
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+h2{
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: black;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+
+.btn:hover {
+  background-color: #218838;
+}

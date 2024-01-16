@@ -1,5 +1,7 @@
 import Home from "../../pages/Home/Home";
 import CreateVenue from "../../pages/Venue/CreateVenue/CreateVenue";
+import CreateComment from "../../pages/Blog/CreateComment/CreateComment";
+import CreateBlog from "../../pages/Blog/CreateBlog/CreateBlog";
 import CreateEvent from "../../pages/Event/CreateEvent/CreateEvent";
 import CreateShoppingCart from "../../pages/ShoppingCart/CreateShoppingCart/CreateShoppingCart";
 import CreateTicket from "../../pages/Ticket/CreateTicket/CreateTicket";
@@ -40,6 +42,17 @@ export const AppRoutes = [
     path: "/admin",
     element: <Admin />,
   },
+  {
+    type: RouteType.PUBLIC,
+    path: "/create-blog",
+    element: <CreateBlog />,
+  },
+  {
+    type: RouteType.PUBLIC,
+    path: "/create-comment",
+    element: <CreateComment />,
+  },
+  
 
   
 ];

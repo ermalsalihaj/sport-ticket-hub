@@ -22,6 +22,13 @@ const navListData = [
   },
   {
     _id: 4,
+    target: "blog",
+    name: "Blog",
+    icon: "bi bi-card-text",
+    active: false,
+  },
+  {
+    _id: 5,
     target: "bag",
     name: "My Bag",
     icon: "bi-bag",

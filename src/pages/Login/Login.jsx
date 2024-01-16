@@ -15,9 +15,9 @@ function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // New state for tracking login status
   const navigate = useNavigate();
   const loginPageStyle = {
-    backgroundColor: '#192938',
+    backgroundColor: "#192938",
   };
-  
+
   const register = (e) => {
     e.preventDefault();
     Axios.post("https://localhost:7051/api/Users/PostUser", {
@@ -74,6 +74,7 @@ function Login() {
           setLoginStatus("Login was successful");
           localStorage.setItem("role", response.data.user.role);
           localStorage.setItem("username", username);
+          localStorage.setItem("userId", response.data.user.userId);
           localStorage.setItem("token", response.data.token);
           navigate("/");
         } else {
@@ -91,7 +92,8 @@ function Login() {
   };
 
   return (
-    <div style={loginPageStyle} 
+    <div
+      style={loginPageStyle}
       className="d-flex align-items-center justify-content-center vh-100 "
       id="login"
     >
