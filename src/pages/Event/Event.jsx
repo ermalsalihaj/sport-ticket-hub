@@ -81,7 +81,7 @@ const Event = () => {
         {events.map((event) => (
           <div className="col-xl-3 col-lg-4 col-md-6" key={event.eventId}>
             <div className="gameCard">
-            {console.log("Image URL:", event.image)}
+            {/* {console.log("Image URL:", event.image)} */}
             <img className="img-fluid" src={`https://localhost:7051/Images/${event.image}`} alt={event.name} />
               <div className="gameFeature">
                 <span className="gameType">{event.name}</span>

@@ -28,7 +28,7 @@ const Venue = () => {
   const handleDelete = async (id) => {
     try {
       if (
-        window.confirm("Are you sure you want to delete this venue?") == true
+        window.confirm("Are you sure you want to delete this venue?") === true
       ) {
         await axios.delete(`https://localhost:7051/api/Venues/${id}`);
         // window.location.reload();
@@ -57,7 +57,7 @@ const Venue = () => {
         {venues.map((venue) => (
           <div className="col-xl-3 col-lg-4 col-md-6">
             <div className="gameCard">
-              <img className="img-fluid" />
+            <img className="img-fluid" src={`https://localhost:7051/Images/${venue.image}`} alt={venue.name} />
               <div className="gameFeature">
                 <span className="gameType">{venue.name}</span>
               </div>

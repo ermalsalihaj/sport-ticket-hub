@@ -95,7 +95,7 @@ const Ticket = () => {
         {tickets.map((ticket) => (
           <div className="col-xl-3 col-lg-4 col-md-6">
             <div className="gameCard">
-              <img className="img-fluid" />
+            <img className="img-fluid" src={`https://localhost:7051/Images/${ticket.image}`} alt={ticket.name} />
               <div className="gameFeature">
                 <span className="gameType">{ticket.seatNumber}</span>
                 <h3 className="gameTitle mt-4 mb-3">

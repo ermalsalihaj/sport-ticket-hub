@@ -29,15 +29,16 @@ export const AppContext = React.createContext();
 function App() {
   const [library, setLibrary] = useState([]);
   const [bag, setBag] = useState([]);
+  const [blog, setBlog] = useState([]);
 
   return (
     <>
-      <AppContext.Provider value={{ library, setLibrary, bag, setBag }}>
+      <AppContext.Provider value={{ library, setLibrary, blog, setBlog, bag, setBag }}>
         <Router>
           <Routes>
             <Route path="/create-venue" element={<CreateVenue />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/blog" element={<Blog />} />
+            {/* <Route path="/blog" element={<Blog />} /> */}
             <Route path="/blog/:id" element={<BlogDetails />} />
 
             <Route path="/admin" element={<Admin />} />
@@ -50,7 +51,7 @@ function App() {
             <Route path="/update-user/:userId" element={<UpdateUser />} />
             <Route path="/update-blog/:id" element={<UpdateBlog />} />
             <Route path="/update-event/:eventId" element={<UpdateEvent />} />
-            <Route path="/update-ticket/:ticketId" element={<UpdateTicket />} />
+            <Route path="/update-ticket/:id" element={<UpdateTicket />} />
             <Route
               path="/update-shoppingcart/:shoppingCartId"
               element={<UpdateShoppingCart />}

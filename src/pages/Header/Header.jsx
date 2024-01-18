@@ -43,10 +43,10 @@ function Header({ toggleActive, isLoggedIn }) {
       </a>
 
       <div className="userItems">
-        <a href="#" className="icon">
+        {/* <a href="#" className="icon">
           <i className="bi bi-heart-fill"></i>
           <span className="like">0</span>
-        </a>
+        </a> */}
         <a href="#" className="icon">
           <i className="bi bi-bag-fill"></i>
           <span className="bag">{shoppingCart.length}</span>

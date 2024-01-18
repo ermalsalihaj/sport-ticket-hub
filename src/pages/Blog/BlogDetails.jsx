@@ -49,12 +49,24 @@ const BlogDetails = () => {
     }
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  }
+
   return (
     <div className="container">
       <h1>{blog.title}</h1>
       <p>{blog.content}</p>
 
-      <p>Created: {blog.createdAt}</p>
+      <p>Created: {formatDate(blog.createdAt)}</p>
 
       <h2>Comments:</h2>
       <ul>

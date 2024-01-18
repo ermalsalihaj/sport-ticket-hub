@@ -6,17 +6,33 @@ import { variables } from "../../../Variables";
 import { toast } from "react-toastify";
 import "./updateTicket.css"
 const CreateTicket = () => {
+  const defaultimage = "/sport-ticket-hub/src/images/UBT LOGO.png";
+
   const [ticket, setTicket] = useState({
     seatNumber: "",
     ticketPrice: 0,
     isAvailable: false,
     eventId: 0,
+    image: "s", // Set the default value to "s"
+    imageSrc: defaultimage,
+    imageFile: null,
   });
   const [formError, setFormError] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+     if (e.target.name === "image") {
+      setTicket((prev) => ({
+        ...prev,
+        imageFile: e.target.files[0],
+        imageSrc: URL.createObjectURL(e.target.files[0]),
+      }));
+      console.log(e.target.files[0]);
+    } else {
+      setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+      console.log(e.target.value);
+    }
+    // setTicket((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleClick = async (e) => {
@@ -34,17 +50,37 @@ const CreateTicket = () => {
       return;
     }
 
-    try {
-      await axios.post("https://localhost:7051/api/Tickets/PostTicket", {
-        ...ticket,
-        ticketPrice: ticketPriceFloat,
+    const formData = new FormData();
+    formData.append("SeatNumber", ticket.seatNumber);
+    formData.append("TicketPrice", ticket.ticketPrice);
+    formData.append("IsAvailable", ticket.isAvailable);
+    formData.append("EventId", ticket.eventId);
+    formData.append("Image", ticket.image); // This should be the file name
+    formData.append("ImageFile", ticket.imageFile); // This should be the file content
+    // addData(formData);
+
+      // const addData = async (formData) => {
+      try {
+      await axios.post("https://localhost:7051/api/Tickets/PostTicket", 
+         formData,
+        // ticketPrice: ticketPriceFloat,  
+        {
+           headers: {
+            accept: "text/plain",
+            "Content-Type": "multipart/form-data",
+        }      
+         
+        
       });
       navigate("/");
       toast.success(" Created Successfully! ");
     } catch (err) {
       console.log(err);
     }
+  // }
   };
+
+
   useEffect(() => {
     document.body.classList.add("body-with-update-ticket");
     return () => {
@@ -55,7 +91,7 @@ const CreateTicket = () => {
     <div className="container">
       <h2 className="s">Add new Ticket</h2>
       <div className="mb-3">
-
+      <img src={ticket.imageSrc} alt="" style={{ width: "250px" }} />
       <input
         type="text"
         className="form-control"
@@ -84,6 +120,15 @@ const CreateTicket = () => {
         name="eventId"
       />
       </div>
+      <div className="mb-3">
+          <input
+            type="file"
+            accept="image/*"
+            className="form-control"
+            onChange={handleChange}
+            name="image"
+          />
+        </div>
       
       <label>
         <input

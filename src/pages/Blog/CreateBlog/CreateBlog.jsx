@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { variables } from '../../../Variables';
 import "./createBlog.css"; // Update the CSS file name if needed
+import { toast } from 'react-toastify';
 
 const CreateBlog = () => {
   
@@ -40,7 +41,8 @@ const CreateBlog = () => {
       console.log("Server Response:", response);
   
       if (response.status === 201) {
-        navigate("/blog");
+        navigate("/");
+        toast.success(" Created Successfully! ");
       } else {
         console.error("Unexpected status code:", response.status);
       }

@@ -14,7 +14,7 @@ const CreateEvent = () => {
     name: "",
     date: "",
     eventCategory: 0,
-    image: "s", // Set the default value to "s"
+    image: "s", 
     imageSrc: defaultimage,
     imageFile: null,
   });
@@ -22,7 +22,7 @@ const CreateEvent = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    console.log("Handling change...");
+    // console.log("Handling change...");
     if (e.target.name === "date") {
       const selectedDate = e.target.value;
       const today = DateTime.now().toISODate();
@@ -73,8 +73,8 @@ const CreateEvent = () => {
     const formData = new FormData();
     formData.append("Name", event.name);
     formData.append("Date", event.date);
-    formData.append("Image", event.image); // This should be the file name
-    formData.append("ImageFile", event.imageFile); // This should be the file content
+    formData.append("Image", event.image); 
+    formData.append("ImageFile", event.imageFile); 
     formData.append("EventCategory", event.eventCategory);
     addData(formData);
   };
@@ -94,6 +94,7 @@ const CreateEvent = () => {
         }
       );
       navigate("/");
+      toast.success(" Created Successfully! ");
     } catch (error) {
       console.error("Error adding data:", error);
       if (error.response) {

@@ -8,6 +8,40 @@
 :root {
     --bgColor: #192938;
 }
+.leftcolumn {
+    background-color: #192938;
+    float: left;
+    width: 75%;
+  }
+  .fakeimg {
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: #192938;
+    color: aliceblue;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .card h2{
+    color: aliceblue;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .card p{
+    color: aliceblue;
+    margin-top: 25px;
+  }
+
+  #update{
+    display: grid;
+    width: 150px;
+  }
 
 /* Apply background color to body */
 body {

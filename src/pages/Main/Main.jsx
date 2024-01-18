@@ -7,15 +7,17 @@ import Home from "../Home/Home";
 import Categories from "../Categories/Categories";
 import MyLibrary from "../MyLibrary/MyLibrary";
 import Bag from "../Bag/Bag";
+import Blog from "../Blog/Blog";
 
 function Main() {
-  const { library, bag } = useContext(AppContext);
+  const { library, bag, blog } = useContext(AppContext);
   const [active, setActive] = useState(false);
   const [games, setGames] = useState([]);
   const homeRef = useRef();
   const categoriesRef = useRef();
   const libraryRef = useRef();
   const bagRef = useRef();
+  const blogRef = useRef();
 
   const sections = [
     {
@@ -28,9 +30,14 @@ function Main() {
       ref: categoriesRef,
       active: false,
     },
+    // {
+    //   name: "library",
+    //   ref: libraryRef,
+    //   active: false,
+    // },
     {
-      name: "library",
-      ref: libraryRef,
+      name: "blog",
+      ref: blogRef,
       active: false,
     },
     {
@@ -43,6 +50,7 @@ function Main() {
   const handleToggleActive = () => {
     setActive(!active);
   };
+
   const handleSectionActive = (target) => {
     sections.map((section) => {
       section.ref.current.classList.remove("active");
@@ -76,7 +84,8 @@ function Main() {
             <>
               <Home games={games} reference={homeRef} />
               <Categories games={games} reference={categoriesRef} />
-              <MyLibrary games={library} reference={libraryRef} />
+              {/* <MyLibrary games={library} reference={libraryRef} /> */}
+              <Blog games={blog} reference={blogRef} />
               <Bag games={bag} reference={bagRef} />
             </>
           )}

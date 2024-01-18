@@ -4,7 +4,7 @@ import GameRating from "./GameRating";
 import { AppContext } from "../App";
 
 function GameCard({ game }) {
-  const { library, setLibrary, bag, setBag } = useContext(AppContext);
+  const { library, setLibrary, bag, setBag,blog, setBlog } = useContext(AppContext);
   const handleAddToLibrary = (game) => {
     setLibrary([...library, game]);
   };
@@ -14,7 +14,10 @@ function GameCard({ game }) {
   const handleAddToBag = (game) => {
     if(bag.includes(game))return;
     setBag([...bag, game]);
-
+  };
+  const handleAddToBlog = (game) => {
+    if(blog.includes(game))return;
+    setBlog([...blog, game]);
   };
   return (
     <div className="col-xl-3 col-lg-4 col-md-6">
@@ -50,6 +53,9 @@ function GameCard({ game }) {
           </span>
         </div>
         <a href="#" className="addBag" onClick={()=>handleAddToBag(game)}>
+          <i class="bi bi-bag-plus-fill"></i>
+        </a>
+        <a href="#" className="addBag" onClick={()=>handleAddToBlog(game)}>
           <i class="bi bi-bag-plus-fill"></i>
         </a>
       </div>
