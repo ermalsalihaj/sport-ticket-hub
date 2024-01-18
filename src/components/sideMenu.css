@@ -90,25 +90,59 @@
   background: var(--primary);
 }
 
-.sideMenu.active {
-  width: 7%;
-  transition: 1s;
-  overflow: hidden;
-  align-items: center;
+@media (max-width: 992px) {
+  .sideMenu {
+    width: 40%;
+  }
+
+  .sideMenu.active {
+    width: 60%;
+  }
+
+  .sideMenu .logo {
+    font-size: 2em;
+  }
+
+  .sideMenu .nav li a {
+    font-size: 0.9em;
+  }
 }
 
-.sideMenu.active .brand,
-.sideMenu.active .navName {
-  display: none;
+@media (max-width: 768px) {
+  .sideMenu .nav li a {
+    font-size: 0.8em;
+  }
+  .sideMenu .nav li a span {
+    font-size: 0;
+  }
+  .sideMenu .logo {
+    font-size: 1.5em;
+  }
 }
 
-.sideMenu.active .nav li a {
-  font-size: 1.8em;
+@media (max-width: 576px) {
+  .sideMenu .nav li a {
+    font-size: 0.7em;
+  }
+  .sideMenu .logo {
+    font-size: 1em;
+  }
 }
 
-.sideMenu.active .social {
-  padding: 0;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+@media (max-width: 480px) {
+  .sideMenu .nav li a {
+    font-size: 0.6em;
+  }
+  .sideMenu .logo {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 375px) {
+  .sideMenu .nav li a {
+    font-size: 0.5em;
+  }
+  .sideMenu .logo {
+    font-size: 0.7em;
+  }
 }

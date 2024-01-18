@@ -72,64 +72,40 @@ const Blog = (props) => {
             </>
           )}
         </div>
-        <div>
-          {/* className="row mb-4 mt-4" */}
+        <div className="row mb-4 mt-4">
           {blogs.map((blog) => (
-            <div key={blog.id}>
-              {/* className="col-xl-3 col-lg-4 col-md-6" */}
-              <Link to={`/blog/${blog.id}`}>
-                {/* <div className="gameCard"> */}
-                <div className="leftcolumn">
-                  <img className="img-fluid" alt="" />
-                  <div className="card">
-                    <div className="gameFeature">
-                      <h2 className="gameType">{blog.title}</h2>
-                    </div>
-                    {/* <div className="gamePrice"> */}
-                    <h5 className="gameTitle mt-4 mb-3">
-                      Content: {blog.content}
-                    </h5>
-                    <p>Created: {formatDate(blog.createdAt)}</p>
-                    {userRole === "admin" && (
-                      <>
-                        <Link to={`/update-blog/${blog.id}`}>
-                          <button className="btn btn-primary" id="update">Update</button>
-                        </Link>
-                        
-                        <button
-                          className="btn btn-danger"
-                          id="update"
-                          onClick={() => handleDelete(blog.id)}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                    {/* </div> */}
-                  </div>
+            <div className="col-xl-4 col-lg-6 col-md-6" key={blog.id}>
+              <Link to={`/blog/${blog.id}`} style={{ textDecoration: 'none' }}>
+              <div className="gameCard p-3" style={{ height: "500px" }}>
+                <img
+                  className="img-fluid"
+                  src={`https://localhost:7051/Images/${blog.image}`}
+                  alt={blog.title}
+                  style={{ maxHeight: "200px" }}
+                />
+                <div className="gameFeature mt-3">
+                  <h3 className="gameType">{blog.title}</h3>
+                  <p className="gameTitle mt-1 mb-2">Content: {blog.content}</p>
+                  <p>Created: {formatDate(blog.createdAt)}</p>
                 </div>
-                {/* </div> */}
+                {userRole === "admin" && (
+                  <div className="gameButtons">
+                    <Link to={`/update-blog/${blog.id}`}>
+                      <button className="btn btn-primary mb-2">Update</button>
+                    </Link>
+                    <button
+                      className="btn btn-danger mb-2 ml-2"
+                      onClick={() => handleDelete(blog.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
               </Link>
             </div>
           ))}
         </div>
-        <div class="row">
-          {/* <div class="leftcolumn">
-            <div class="card">
-              <h2>TITLE HEADING</h2>
-              <h5>Title description, Dec 7, 2017</h5>
-              <p>Some text..</p>
-            </div>
-          </div> */}
-          {/* <div class="rightcolumn">
-    <div class="card">
-      <h2>About Me</h2>
-      <div class="fakeimg" style={{height:'100px'}}>Image</div>
-      <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-    </div>
-  </div> */}
-        </div>
-        {/* Use <Routes> instead of <Route> */}
         <Routes>
           <Route path="/blog/:id" element={<BlogDetails />} />
         </Routes>

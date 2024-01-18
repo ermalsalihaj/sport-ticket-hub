@@ -123,7 +123,8 @@ function Categories({ games, reference }) {
             {filteredEvents.map((event) => (
               <div className="col-xl-3 col-lg-4 col-md-6">
                 <div className="gameCard">
-                  <img className="img-fluid" />
+                <img className="img-fluid" src={`https://localhost:7051/Images/${event.image}`} alt={event.name} />
+
                   <div className="gameFeature ">
                     <span className="gameType">{event.name}</span>
                   </div>

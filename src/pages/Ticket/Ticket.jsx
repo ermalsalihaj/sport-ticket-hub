@@ -83,53 +83,63 @@ const Ticket = () => {
   return (
     <div>
       <ToastContainer />
-      <div className="col-lg-6">
+      <div className="col-lg-8">
         <h4 className="sectionTitle">Tickets</h4>
         {userRole === "admin" && (
           <>
-            <Link to="/create-ticket"><button className="btn btn-warning">Create Ticket</button></Link>
+            <Link to="/create-ticket">
+              <button className="btn btn-warning">Create Ticket</button>
+            </Link>
           </>
         )}
       </div>
       <div className="row mb-4 mt-4">
         {tickets.map((ticket) => (
-          <div className="col-xl-3 col-lg-4 col-md-6">
-            <div className="gameCard">
-            <img className="img-fluid" src={`https://localhost:7051/Images/${ticket.image}`} alt={ticket.name} />
-              <div className="gameFeature">
+          <div className="col-xl-4 col-lg-6 col-md-6">
+            <div className="gameCard p-3" style={{ height: "500px" }}>
+              <img
+                className="img-fluid"
+                src={`https://localhost:7051/Images/${ticket.image}`}
+                alt={ticket.name}
+                style={{ maxHeight: "200px" }}
+              />
+              <button
+                className="btn btn-success"
+                onClick={() => handleAddToCart(ticket.ticketId)}
+              >
+                <i className="bi bi-bag-fill"></i>
+              </button>
+              <div className="gameFeature mt-3">
                 <span className="gameType">{ticket.seatNumber}</span>
-                <h3 className="gameTitle mt-4 mb-3">
+                <h3 className="gameTitle mt-1 mb-2">
                   {ticket.isAvailable ? "Available" : "Not Available"}
                 </h3>
               </div>
               <div className="gamePrice">
                 <h3 className="gameTitle mt-4 mb-3">{ticket.eventName}</h3>
-                <span className="currentPrice">
-                  {formatDate(ticket.eventDate)}
-                </span>
-                <hr />
-                <span className="currentPrice">
-                  Price: {ticket.ticketPrice}$
-                </span>
+                <div>
+                  <span className="currentPrice">
+                    Date: {formatDate(ticket.eventDate)}
+                  </span>
+                  <br />
+                  <span className="currentPrice">
+                    Price: {ticket.ticketPrice}$
+                  </span>
+                </div>
+              </div>
+              <div className="gameButtons">
                 {userRole === "admin" && (
-                  <>
+                  <div>
                     <Link to={`/update-ticket/${ticket.ticketId}`}>
-                      <button className="btn btn-primary">Update</button>
+                      <button className="btn btn-primary mb-2">Update</button>
                     </Link>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger mb-2 ml-2"
                       onClick={() => handleDelete(ticket.ticketId)}
                     >
                       Delete
                     </button>
-
-                    <button
-                      className="btn btn-warning"
-                      onClick={() => handleAddToCart(ticket.ticketId)}
-                    >
-                      ADD
-                    </button>
-                  </>
+                  </div>
                 )}
               </div>
             </div>
@@ -139,5 +149,4 @@ const Ticket = () => {
     </div>
   );
 };
-
 export default Ticket;

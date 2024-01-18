@@ -20,23 +20,7 @@ function GameSlide({ game, active, toggleVideo }) {
         <div className="content">
           <h2>{game.title}</h2>
           <p>{game.description}</p>
-          <div className="buttons">
-            <a href="#" className="orderBtn">
-              Order Now
-            </a>
-            <a
-              href="#"
-              className={`playBtn ${active ? "active" : undefined}`}
-              onClick={toggleVideo}
-            >
-              <span className="pause">
-                <i className="bi bi-pause-fill"></i>
-              </span>
-              <span className="play">
-                <i class="bi bi-play-fill"></i>
-              </span>
-            </a>
-          </div>
+          <div className="buttons"></div>
         </div>
       </div>
     </SwiperSlide>

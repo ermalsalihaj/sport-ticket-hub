@@ -172,6 +172,9 @@ const AdminDashboard = () => {
     if (role === "admin") {
       return (
         <div className="sidebar">
+           <Link to="/" className=" mb-3">
+                &lt; Back 
+              </Link>
           <button onClick={() => handleContentChange("home")}>Home</button>
           <button onClick={() => handleContentChange("users")}>Users</button>
           <button onClick={() => handleContentChange("events")}>Events</button>

@@ -35,7 +35,7 @@
       "rating": 4,
       "discount": 0.3,
       "price": 85.0,
-      "img": "./assets/games/ufc.avif",
+      "img": "./assets/games/ufc.jpeg",
       "trailer": "https://www.youtube.com/embed/h_auGwiEfGo?si=pRpxKo7tQmPatR86",
       "active": false
     },

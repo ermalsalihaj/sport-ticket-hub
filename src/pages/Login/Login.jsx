@@ -75,6 +75,7 @@ function Login() {
           localStorage.setItem("role", response.data.user.role);
           localStorage.setItem("username", username);
           localStorage.setItem("userId", response.data.user.userId);
+          localStorage.setItem("isLoggedIn", true);
           localStorage.setItem("token", response.data.token);
           navigate("/");
         } else {
