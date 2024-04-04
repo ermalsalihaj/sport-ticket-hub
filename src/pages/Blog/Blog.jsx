@@ -6,7 +6,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./blog.css";
-import BlogDetails from "./BlogDetails"; // Import the new component
+import BlogDetails from "./BlogDetails"; 
 
 const Blog = (props) => {
   const { reference } = props;
